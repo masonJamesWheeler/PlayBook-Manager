@@ -1,5 +1,6 @@
 <script>
 import { supabase } from "..//supabase";
+
 let uuid = supabase.auth.user()?.id;
 let joined;
 let invitedBy;
@@ -12,12 +13,12 @@ async function loadData() {
   .select()
   .eq("id",uuid)
   console.log(data, error)
-  joined = data[0].joined
   if (data[0].linkcoach != null) {
     invited = true;
     invitedBy = data[0].linkcoach
     name = loadCoachName(invitedBy)
     console.log(name)
+    joined = data[0].joined
 }
   
 }

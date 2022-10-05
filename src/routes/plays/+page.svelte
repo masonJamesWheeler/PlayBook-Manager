@@ -1,7 +1,6 @@
 
 <script>
-	import RandomImage from './RandomImage.svelte'
-	import ModalGrid from './ModalGrid.svelte'
+	import RandomImage from './playCard.svelte'
     import {supabase} from '../../supabase.js'
     import { dataset_dev, each } from "svelte/internal";
 
@@ -26,6 +25,8 @@ let showDisplay = false;
 let avatar_url;
 let currentTab = ["tab-active", "", ""]
 let coach = ""
+let coachID = ""
+
 
 
 	let userPlays = [];
@@ -58,6 +59,7 @@ let coach = ""
     userPlays[userPlays.length] = item
     formationArray = Array.from(formations.keys());
     thirdArray = Array.from(third.keys())
+    plays.set(item,1);
 }
 
 async function saveBothPlays (item) {
@@ -89,6 +91,7 @@ async function savePrivPlay (item) {
     userPlays[userPlays.length] = item
     formationArray = Array.from(formations.keys());
     thirdArray = Array.from(third.keys())
+    plays.set(item,1);
 }
 
     async function getTeam() {
@@ -97,7 +100,7 @@ async function savePrivPlay (item) {
         .select()
         .eq("id", uuid)
         console.log(error)
-          let coachID = data[0].linkcoach
+         coachID = data[0].linkcoach
           console.log(coachID)
             if (coachID == null) {
                 console.log('doesnt belong to a team')
@@ -126,6 +129,7 @@ async function savePrivPlay (item) {
             totalPlays = data;
             data?.forEach(saveWholePlay);
             privatedata();
+            console.log(plays)
     }
     async function privatedata() {
         const { data, error } = await supabase
@@ -136,14 +140,27 @@ async function savePrivPlay (item) {
             data?.forEach(savePrivPlay);
     }
     function removeCardFormation(param) {
-    let imagesTwo = images.filter(obj => obj.formation !== param.formation);
-        if (images.length == imagesTwo.length) {
+    let editPlays = userPlays.filter(obj => obj.formation !== param.formation);
+    let editBothPlays = bothPlays.filter(obj => obj.formation !== param.formation);
+    
+    if (userPlays.length == editPlays.length && bothPlays.length == editBothPlays.length) {
+                addCardFormation(param)
+                addCardCoachFormation(param)
+     } else {
+        if (userPlays.length == editPlays.length) {
         addCardFormation(param);
         console.log('success')
          } else {
-        userPlays = imagesTwo
+        userPlays = editPlays;
+        }  if (bothPlays.length == editBothPlays.length) {
+        addCardCoachFormation(param);
+        console.log("success")
+    }  else {
+        bothPlays = editBothPlays;
     }
 }
+}
+
     async function addCardFormation(param) {
         const { data, error } = await supabase
         .from('playbook')
@@ -151,8 +168,19 @@ async function savePrivPlay (item) {
             .match({formation : param.formation, user_id:uuid});
             data?.forEach(saveWholePlay);
             addPrivCardFormation(param);
-
     }
+
+    async function addCardCoachFormation(param) {
+        const { data, error } = await supabase
+        .from('playbook')
+            .select()
+            .match({formation : param.formation, user_id:coachID});
+            data?.forEach(saveBothPlays);
+            if (currentTab[1] == "tab-active") {
+            addPrivCardFormation(param);
+            }
+    }
+
     async function addPrivCardFormation(param) {
         const { data, error } = await supabase
         .from('publicplays')
@@ -162,12 +190,28 @@ async function savePrivPlay (item) {
     }
 
     function removeCardThird(param) {
-        let imagesTwo = images.filter(obj => obj.third_down !== param.currThird);
-        if (images.length == imagesTwo.length) {
+        let editPlays = userPlays.filter(obj => obj.third_down !== param.currThird);
+        let editBothPlays = bothPlays.filter(obj => obj.third_down !== param.currThird);
+        // put in the case where we are at the both tab and then default to the lower code which works for the 
+        //first two cases
+            if (userPlays.length == editPlays.length && bothPlays.length == editBothPlays.length) {
+                addCardThird(param)
+                addCardCoachThird(param)
+        
+            } else {
+        //
+        if (userPlays.length == editPlays.length) {
         addCardThird(param);
         console.log('success')
          } else {
-        userPlays = imagesTwo
+        userPlays = editPlays
+        }
+        if (bothPlays.length == editBothPlays.length) {
+            addCardCoachThird(param);
+            console.log("success")
+        } else {
+            bothPlays = editBothPlays
+        }
     }
 }
     async function addCardThird(param) {
@@ -177,6 +221,17 @@ async function savePrivPlay (item) {
             .match({third_down : param.currThird, user_id:uuid});
             data?.forEach(saveWholePlay);
             addPrivCardThird(param);
+    }
+
+    async function addCardCoachThird(param) {
+        const { data, error } = await supabase
+        .from('playbook')
+            .select()
+            .match({third_down : param.currThird, user_id:coachID});
+            data?.forEach(saveBothPlays);
+            if (currentTab[1] == "tab-active") {
+            addPrivCardThird(param);
+            }
     }
 
     async function addPrivCardThird(param) {

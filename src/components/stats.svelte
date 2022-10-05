@@ -1,7 +1,5 @@
 <script>
 import {supabase} from "../supabase"
-import {onMount} from "svelte"
-	import { dataset_dev } from "svelte/internal";
 let uuid = supabase.auth.user()?.id;
 let plays = new Map();
 let show = false;
@@ -9,14 +7,22 @@ let playsArray;
 let totalFormations= 0;
 let totalPlays = 0;
 let avatar_url = null;
+let publicData;
+let coachID = ""
 
-onMount(async () => {
+
+
+async function getData() {
+  console.log(coachID)
   const { data, error } = await supabase
   .from('playbook')
-  .select('formation')
-  .eq("user_id",uuid);
+  .select()
+  .or('user_id.eq.' + uuid + ',user_id.eq.' + coachID)
+  
+  console.log(data)
   data?.forEach(print);
-  totalPlays = data?.length
+  publicData?.forEach(print)
+  totalPlays = data?.length + publicData?.length
   totalFormations = plays.size
   show = true;
   playsArray = Array.from(plays.keys());
@@ -26,17 +32,37 @@ onMount(async () => {
     .createSignedUrl(uuid + "/avatar_url", 60)
      avatar_url = signedURL;
     console.log(signedURL, errortwo)
-});
+}
+
 function print(item) {
   if(!plays.has(item.formation) && item.formation != "")
   
   plays.set(item.formation.toUpperCase() ,1)
 }
 
+async function getPublicData () {
+  const{data,error} = await supabase 
+  .from('publicplays')
+  .select()
+  .eq("user_id", uuid)
+   publicData = data;
+}
+
+
+async function getTeamData () {
+  const{data,error} = await supabase 
+  .from('profiles')
+  .select()
+  .eq("id", uuid)
+  coachID = data[0].linkcoach
+  console.log(coachID)
+}
 
 
 </script>
-
+{#await getTeamData() then}
+{#await getPublicData() then}
+{#await getData() then}
 <div class = "flex mt-4">
     <div class="stats shadow mx-auto bg-slate-800 w-full mx-6">
       
@@ -73,3 +99,6 @@ function print(item) {
         
       </div>
     </div>
+    {/await}
+  {/await}
+  {/await}
