@@ -146,7 +146,7 @@
 	}
 </script>
 
-<div class="h-full">
+<div class="min-h-screen bg-gradient-to-r from-slate-200 to-slate-100">
 	<Navbar />
 	<div class="mx-auto flex  h-96 items-center justify-center mt-16">
 		<input
@@ -165,7 +165,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="bg-base-300 h-96">
+	<div class="bg-slate-700 h-screen mb-0 mt-48">
 		<form class="form-widget h-full py-4 mt-6">
 			<div class="grid grid-cols-3 gap-4 mx-auto my-8 px-4">
 				<input
@@ -212,7 +212,7 @@
 					<option>{extralong}</option>
 				</select>
 				<select
-					class="select select-primary w-full col-span-1 text-l font-bold text-white"
+					class="select select-primary w-full col-span-1 text-l font-bold text-slate-800"
 					bind:value={personel}
 					on:change|preventDefault={() => (answer = '')}
 				>
@@ -227,7 +227,7 @@
 					<option>{twentythree}</option>
 				</select>
 				<select
-					class="select select-primary w-full col-span-1 text-l font-bold text-white"
+					class="select select-primary w-full col-span-1 text-l font-bold text-slate-800"
 					bind:value={numXnum}
 					on:change|preventDefault={() => (answer = '')}
 				>
@@ -237,7 +237,7 @@
 					<option>{quads}</option>
 				</select>
 				<select
-					class="select select-primary w-full col-span-1 text-l font-bold text-white"
+					class="select select-primary w-full col-span-1 text-l font-bold text-slate-800"
 					bind:value={run_or_pass}
 					on:change|preventDefault={() => (answer = '')}
 				>
@@ -246,7 +246,7 @@
 					<option>{pass}</option>
 					<option>{rpo}</option>
 				</select>
-				<div class="form-control">
+				<div class="form-control rounded-2xl border-primary">
 					<label class="label cursor-pointer">
 						<span class="font-bold text-white text">Make Play Public?</span>
 						<input type="checkbox" class="toggle toggle-primary" bind:checked={pub} on />

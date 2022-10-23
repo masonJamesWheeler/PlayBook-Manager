@@ -81,27 +81,27 @@
 		}
 	}
 </script>
-
+<div class = "bg-gradient-to-r from-slate-200 to-slate-100">
 <Navbar />
-<div class="hero min-h-full bg-base-100 my-2">
+<div class="hero min-h-full my-2">
 	<div
-		class="z-0 flex object-center justify-center flex-row-reverse align-top bg-base-200 rounded-2xl mx-4"
+		class="z-0 flex object-center justify-center flex-row-reverse align-top rounded-2xl mx-4 "
 	>
 		{#await getPlays() then value}
 			<div class="w-full mx-4 my-4 object-right ">
 				<div
 					class="h-full aspect-w-1 aspect-h-1 w-96 rounded-3xl  hover:opacity-90  hover:cursor-pointer shadow-xl mx-auto flex"
 				>
-					<div class="card" on:click={() => gotoPlay(value[0].name)}>
+					<div class="card shadow-3xl" on:click={() => gotoPlay(value[0].name)}>
 						<figure>
 							{#await value[0].signedURL then}
 								<img class="object-fill" src={value[0].signedURL} alt="random img" />
 							{/await}
 						</figure>
-						<div class="card-body bg-slate-700">
+						<div class="card-body bg-gradient-to-r from-slate-700 to-slate-700">
 							<h2 class="card-title text-white text-center">
 								{value[0].name}
-							</h2>
+							</h2> 
 
 							<div class="card-actions justify-end">
 								<div class="badge badge-primary">{value[0].third_down}</div>
@@ -122,23 +122,23 @@
 			</div>
 		{/await}
 		<div class="hidden sm:block">
-			<h6 class=" text-white  text-2xl md:text-5xl font-extrabold mx-4 mt-12 align-middle">
+			<h6 class=" text-slate-700  text-2xl md:text-5xl font-extrabold mx-4 mt-12 align-right">
 				The Best Way To Store Your PlayBook
 			</h6>
 			<ul class="mt-8 font-bold">
-				<h3 class="text-white mx-4 align-middle">
+				<h3 class="text-slate-700 mx-4 align-middle">
 					- Sort plays by Formation, Concept, Third-Down-Preference, and More
 				</h3>
-				<h3 class="text-white mx-4 align-middle my-4">
+				<h3 class="text-slate-700 mx-4 align-middle my-4">
 					- Study tools for players based on player's needs
 				</h3>
-				<h3 class="text-white mx-4 align-middle my-4">
+				<h3 class="text-slate-700 mx-4 align-middle my-4">
 					- Create and Send installs to players automatically via email or web
 				</h3>
-				<h3 class="text-white mx-4 align-middle my-4 hidden md:block">
+				<h3 class="text-slate-700 mx-4 align-middle my-4 hidden md:block">
 					- Analytic tools to balance your playbook
 				</h3>
-				<h3 class="text-white mx-4 align-middle my-4 hidden md:block">
+				<h3 class="text-slate-700 mx-4 align-middle my-4 hidden md:block">
 					- Search Public Plays for Ideas and Inspiration
 				</h3>
 			</ul>
@@ -146,20 +146,20 @@
 	</div>
 </div>
 
-<div class="grid card bg-base-100 rounded-box place-items-center  mt-0 mx-4">
-	<div class="card card-side bg-base-200 shadow-xl w-full flex h-full">
-		<div class="btn-group btn-group-vertical ">
-			<button class="btn text-white" on:click={() => getPlayParam('run_or_pass', 'RPO')}>RPO's</button>
-			<button class="btn text-white" on:click={() =>getPlayParam('run_or_pass', 'Pass')}>Pass</button>
-			<button class="btn text-white" on:click={() => getPlayParam('run_or_pass', 'Run')}>Run</button>
-			<button class="btn text-white" on:click={() => getPlayParam('concept', 'Mesh')}>Mesh</button>
-			<button class="btn text-white" on:click={() => getPlayParam('third_down', 'Third and Long')}>Third and Long</button>
-      <button class="btn text-white" on:click={() => getPlayParam('concept', 'Mesh')}>2x2</button>
-			<button class="btn text-white" on:click={() => getPlayParam('concept', 'Mesh')}>3x1</button>
-			<button class="btn text-white" on:click={() => getPlayParam('concept', 'Mesh')}>Quads</button>
+<div class="grid card rounded-box place-items-center mt-2 mx-16 shadow-2xl bg-gradient-to-r from-slate-100 to-slate-50 ">
+	<div class="card  card-side shadow-xl w-full flex h-full">
+		<div class="btn-group btn-group-vertical  ">
+			<button class="btn text-slate-800 bg-gray-100 border-none rounded-r-none hover:bg-sky-200" on:click={() => getPlayParam('run_or_pass', 'RPO')}>RPO's</button>
+			<button class="btn text-slate-800 bg-gray-100 border-none hover:bg-sky-200" on:click={() =>getPlayParam('run_or_pass', 'Pass')}>Pass</button>
+			<button class="btn text-slate-800 bg-gray-100 border-none hover:bg-sky-200" on:click={() => getPlayParam('run_or_pass', 'Run')}>Run</button>
+			<button class="btn text-slate-800 bg-gray-100 border-none hover:bg-sky-200" on:click={() => getPlayParam('concept', 'Mesh')}>Mesh</button>
+			<button class="btn text-slate-800 bg-gray-100 border-none hover:bg-sky-200" on:click={() => getPlayParam('third_down', 'Third and Long')}>Third and Long</button>
+      <button class="btn text-slate-800 bg-gray-100 border-none hover:bg-sky-200" on:click={() => getPlayParam('concept', 'Mesh')}>2x2</button>
+			<button class="btn text-slate-800 bg-gray-100 border-none hover:bg-sky-200" on:click={() => getPlayParam('concept', 'Mesh')}>3x1</button>
+			<button class="btn text-slate-800 bg-gray-100 border-none rounded-r-none hover:bg-sky-200"  on:click={() => getPlayParam('concept', 'Mesh')}>Quads</button>
 
     </div>
-			<div class=" inline-flex  gap-x-6 xl:gap-x-4 mt-2 overflow-x-auto mx-2">
+			<div class=" inline-flex  gap-x-6 xl:gap-x-4 mt-2 overflow-x-auto ">
 				{#await getPlayParam() then}
         {#key value}
          {#each value as curr}
@@ -167,13 +167,13 @@
 						<div
 							class="h-full aspect-w-1 aspect-h-1 w-64 rounded-3xl  hover:opacity-90  hover:cursor-pointer shadow-xl mx-auto flex"
 						>
-							<div class="card" on:click={() => gotoPlay(curr.name)}>
+							<div class="card shadow-2xl" on:click={() => gotoPlay(curr.name)}>
 								<figure>
 									{#await curr.signedURL then}
 										<img class="object-fill" src={curr.signedURL} alt="random img" />
 									{/await}
 								</figure>
-								<div class="card-body bg-slate-700">
+								<div class="card-body bg-gradient-to-r from-slate-700 to-slate-700">
 									<h2 class="card-title text-white text-center">
 										{curr.name}
 									</h2>
@@ -198,3 +198,4 @@
 <a class="btn btn-primary" href="/signup">sign up</a>
 <a class="btn btn-primary" href="/userinformation">user information</a>
 <Invitation />
+</div>

@@ -6,7 +6,6 @@
 	export let img
 	let click;
 	let clicked = click ? true : false;	
-	console.log(img.formation.toUpperCase());
 	
 	async function data (item) {
         const { data, error } = await supabase
@@ -14,7 +13,6 @@
             .select()
             .eq("name", item);
             img = data[0];
-            console.log(img);
             const { signedURL, errorTwo } = await supabase.storage
             .from('plays')
             .createSignedUrl(img.file_path, 60)

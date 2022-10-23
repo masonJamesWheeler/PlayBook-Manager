@@ -13,13 +13,11 @@ let coachID = ""
 
 
 async function getData() {
-  console.log(coachID)
   const { data, error } = await supabase
   .from('playbook')
   .select()
   .or('user_id.eq.' + uuid + ',user_id.eq.' + coachID)
   
-  console.log(data)
   data?.forEach(print);
   publicData?.forEach(print)
   totalPlays = data?.length + publicData?.length
@@ -31,7 +29,6 @@ async function getData() {
     .from('plays')
     .createSignedUrl(uuid + "/avatar_url", 60)
      avatar_url = signedURL;
-    console.log(signedURL, errortwo)
 }
 
 function print(item) {
@@ -55,7 +52,6 @@ async function getTeamData () {
   .select()
   .eq("id", uuid)
   coachID = data[0].linkcoach
-  console.log(coachID)
 }
 
 

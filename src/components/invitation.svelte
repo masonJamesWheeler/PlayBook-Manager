@@ -12,7 +12,6 @@ async function loadData() {
   .from('profiles')
   .select()
   .eq("id",uuid)
-  console.log(data, error)
   if (data[0].linkcoach != null) {
     invited = true;
     invitedBy = data[0].linkcoach
@@ -27,16 +26,13 @@ async function loadCoachName(name) {
   .from('profiles')
   .select()
   .eq("id",name);
-  console.log(data[0].team_name)
    return data[0].team_name
-   console.log(data, error)
 }
 async function acceptInvite () {
     const { data, error } = await supabase
   .from('profiles')
   .update({ joined : true })
   .eq("id", uuid);
-  console.log(data, error);
   loadData()
 }
 async function declineInvite () {
@@ -44,7 +40,6 @@ async function declineInvite () {
   .from('profiles')
   .update({ 'linkcoach' : null })
   .eq("id", uuid);
-  console.log(data, error);
   loadData()
 }
 
@@ -55,13 +50,13 @@ async function declineInvite () {
 
 <footer class="footer w-full">
     <div>
-        <div class="alert shadow-lg w-screen">
+        <div class="alert shadow-lg w-screen bg-slate-700">
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               <span class = "text-white text-xl font-semibold">You have an Invitation from {value} </span>
             </div>
             <div class="flex-none">
-              <button on:click|preventDefault={declineInvite} class = "btn btn-sm btn-ghost">Deny</button>
+              <button on:click|preventDefault={declineInvite} class = "btn btn-sm btn-ghost text-white">Deny</button>
               <button on:click|preventDefault={acceptInvite} class="btn btn-sm btn-primary">Accept</button>
             </div>
           </div>

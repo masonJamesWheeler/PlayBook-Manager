@@ -21,7 +21,6 @@ async function textSearch () {
   .ilike('name', "%" + searchText + "%")
    possibilities = data;
    playQuant = data?.length;
-  console.log(data, data?.length, playQuant,searchText)
 }
 onMount(() => {
   async function getPlays(){
@@ -30,8 +29,7 @@ onMount(() => {
             .select()
             .eq("user_id",uuid);
             data?.forEach(saveImages);
-            console.log(images)
-            console.log(mapOfPlays);
+
 }
 getPlays();
 });
@@ -58,7 +56,6 @@ async function data (item) {
             .select()
             .eq("name", item);
             img = data[0];
-            console.log(img);
             const { signedURL, errorTwo } = await supabase.storage
             .from('plays')
             .createSignedUrl(img.file_path, 60)
@@ -73,7 +70,7 @@ async function data (item) {
 
 </script>
 
-<div class="navbar bg-base-300">
+<div class="navbar bg-white">
     <div class="navbar-start ">
       <div class="dropdown">
         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -89,7 +86,7 @@ async function data (item) {
     </div>
     <div class="navbar-center mx-4">
       <!-- svelte-ignore a11y-missing-attribute -->
-      <a class="btn btn-ghost normal-case text-xl">ProtoType 1</a>
+      <a class="btn btn-ghost normal-case text-xl text-blue-600">ProtoType 1</a>
     </div>
     <div class="navbar-end mx-4">
         <div class="dropdown">

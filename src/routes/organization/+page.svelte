@@ -102,21 +102,21 @@ async function loadPersonal () {
 <div class="modal modal-bottom sm:modal-middle">
   <div class="modal-box align-bottom">
     <ul class = "my-auto flex">
-    <h3 class = "text-white font-bold text-2xl">Enter Player's Email</h3>
+    <h3 class = "text-slate-800 font-bold text-2xl">Enter Player's Email</h3>
     <label for="my-modal-7" class="btn mx-auto mr-0">Escape</label>
 
 </ul>
     
 
     <div class="modal-action ml-2">
-        <input type="text" bind:value={email} placeholder="Type here" class="input input-bordered input-success w-full max-w-xs my-auto mb-2 ml-2" />
+        <input type="text" bind:value={email} placeholder="Type here" class="input input-bordered input-success w-full max-w-xs my-auto mb-2 ml-2 text-slate-800" />
         <label for="my-modal-7" class="btn" on:click|preventDefault={sendRequest}>Submit</label>
     </div>
     <div class = "mx-auto  {sent} w-full col-span-3">
         <div class="alert alert-success shadow-lg mx-auto w-full col-span-3">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <span>Invite has been sent!</span>
+            <span class = "text-slate-800">Invite has been sent!</span>
           </div>
           </div>
         </div>
@@ -151,7 +151,7 @@ async function loadPersonal () {
        
        {#each value as val}
 
-        <tr class = "text-white">
+        <tr class = "text-slate-800">
             <th class = "text-lg font-semibold">{val.full_name}</th> 
             <td class = "text-lg font-semibold">{val.email}</td> 
             <td class = "text-lg font-semibold">{val.phone}</td> 
