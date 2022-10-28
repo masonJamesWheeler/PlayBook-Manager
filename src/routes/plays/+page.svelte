@@ -7,6 +7,8 @@
 	import Stats from '../../components/stats.svelte';
 	import { prerendering } from '$app/environment';
 	import { user } from '../userinformation/sessionStore';
+
+	
 	let add = false;
 	let plays = new Map();
 	let show = false;
@@ -33,10 +35,10 @@
 	    removedFormations,
 		removedDowns
 	};
-	let selection = [];
+
 
 	let userPlays = [];
-	let bothPlays = [];
+	let teamPlays = [];
 	let allImages = [];
 	let uuid = supabase.auth.user()?.id;
 	let showing;
@@ -49,8 +51,8 @@
 		currentTab = ['', '', ''];
 		currentTab[param] = 'tab-active';
 	}
-
-	async function saveWholePlay(item) {
+	
+ 	async function saveWholePlay(item) {
 		const { signedURL, error } = await supabase.storage
 			.from('plays')
 			.createSignedUrl(item.file_path, 60);
@@ -80,7 +82,7 @@
 		}
 		formations.set(item.formation, 1);
 		third.set(item.third_down, 1);
-		bothPlays[bothPlays.length] = item;
+		teamPlays[teamPlays.length] = item;
 		formationArray = Array.from(formations.keys());
 		thirdArray = Array.from(third.keys());
 	}
@@ -139,7 +141,14 @@
 			userPlays.forEach((play) => {
 				removedParams.removedFormations.forEach((removed) => {
 					if (play.formation === removed) {
-						playerRemovedPlays.push(play);
+						playerRemovedPlays[playerRemovedPlays.length] = play;
+					}
+				});
+			});
+			teamPlays.forEach((play) => {
+				removedParams.removedFormations.forEach((removed) => {
+					if (play.formation === removed) {
+						teamRemovedPlays[teamRemovedPlays.length] = play;
 					}
 				});
 			});
@@ -164,10 +173,31 @@
 					}
 				}
 			});
-            removedParams.removedFormations = removedParams.removedFormations.filter(
+			teamRemovedPlays.forEach((removedPlay) => {
+				if (removedPlay.formation === param.formation) {
+					if (removedParams.removedDowns.length > 0) {
+                        if (!removedParams.removedDowns.includes(removedPlay.third_down) ) {
+								teamPlays[teamPlays.length] = removedPlay;
+								teamRemovedPlays = teamRemovedPlays.filter(
+									(obj) => obj.name !== removedPlay.name
+								);
+								removedParams.removedFormations = removedParams.removedFormations.filter(
+									(obj) => obj !== param.formation
+								);
+							}
+						
+					} else {
+						teamPlays[teamPlays.length] = removedPlay;
+						teamRemovedPlays = teamRemovedPlays.filter((obj) => obj.name !== removedPlay.name);
+					}
+				}
+			});
+			removedParams.removedFormations = removedParams.removedFormations.filter(
 									(obj) => obj !== param.formation
 								);
 		}
+		
+
 		console.log('removed downs = ' + removedParams.removedDowns);
 		console.log('removed formations = ' + removedParams.removedFormations);
 		console.log('removed Plays' + playerRemovedPlays);
@@ -178,15 +208,19 @@
 				removedParams.removedDowns.forEach((removedDown) => {
 					userPlays = userPlays.filter((obj) => obj.formation !== removedFormation);
 					userPlays = userPlays.filter((obj) => obj.third_down !== removedDown);
+					teamPlays = teamPlays.filter((obj) => obj.formation !== removedFormation);
+					teamPlays = teamPlays.filter((obj) => obj.third_down !== removedDown);
 				});
 			});
 		} else if (removedParams.removedDowns.length !== 0) {
 			removedParams.removedDowns.forEach((removedDown) => {
 				userPlays = userPlays.filter((obj) => obj.third_down !== removedDown);
+				teamPlays = teamPlays.filter((obj) => obj.third_down !== removedDown);
 			});
 		} else if (removedParams.removedFormations.length !== 0) {
 			removedParams.removedFormations.forEach((removedFormation) => {
 				userPlays = userPlays.filter((obj) => obj.formation !== removedFormation);
+				teamPlays = teamPlays.filter((obj) => obj.formation !== removedFormation);
 			});
 		}
 	}
@@ -201,7 +235,14 @@
 			userPlays.forEach((play) => {
 				removedParams.removedDowns.forEach((removed) => {
 					if (play.third_down === removed) {
-						playerRemovedPlays.push(play);
+						playerRemovedPlays[playerRemovedPlays.length] = play;
+					}
+				});
+			});
+			teamPlays.forEach((play) => {
+				removedParams.removedDowns.forEach((removed) => {
+					if (play.third_down === removed) {
+						teamRemovedPlays[teamRemovedPlays.length] = play;
 					}
 				});
 			});
@@ -215,10 +256,26 @@
 								playerRemovedPlays = playerRemovedPlays.filter(
 									(obj) => obj.name !== removedPlay.name
 								);
+								
 							}
 					} else {
 						userPlays[userPlays.length] = removedPlay;
 						playerRemovedPlays = playerRemovedPlays.filter((obj) => obj.name !== removedPlay.name);
+					}
+				}
+			});
+			teamRemovedPlays.forEach((removedPlay) => {
+				if (removedPlay.third_down === param.currThird) {
+					if (removedParams.removedFormations.length > 0) {
+                        if (!removedParams.removedFormations.includes(removedPlay.formation)) {
+								teamPlays[teamPlays.length] = removedPlay;
+								teamRemovedPlays = teamRemovedPlays.filter(
+									(obj) => obj.name !== removedPlay.name
+								);
+							}
+					} else {
+						teamPlays[teamPlays.length] = removedPlay;
+						teamRemovedPlays = teamRemovedPlays.filter((obj) => obj.name !== removedPlay.name);
 					}
 				}
 			});
@@ -232,9 +289,6 @@
 	}
 </script>
 
-<!-- {@debug removedParams}
-{@debug playerRemovedPlays}
-{@debug userPlays} -->
 
 <div class="bg-gradient-to-r from-slate-200 to-slate-100 min-h-screen">
 	<Navbar />
@@ -292,26 +346,32 @@
 
 		<div class=" w-full h-full">
 			<div class="mx-auto max-w-5xl py-4 px-4 lg:max-w-7xl">
+				<div class = "flex">
 				<div class="tabs w-full align-center justify-center mx-auto">
 					<a
 						on:click={() => changeTab(0)}
-						class="tab tab-lifted text-slate-800 font-bold {currentTab[0]} text-xl">Your Plays</a
+						class=" indicator tab tab-lifted text-slate-800 font-bold {currentTab[0]} text-xl">Your Plays
+						<span class="indicator-item badge right-0">{userPlays.length}</span></a
 					>
 					<a
 						on:click={() => changeTab(1)}
-						class="tab tab-lifted text-slate-800 font-bold {currentTab[1]} text-xl">Team's Plays</a
+						class="indicator tab tab-lifted text-slate-800 font-bold {currentTab[1]} text-xl">Team's Plays
+						<span class="indicator-item badge right-0">{teamPlays.length}</span></a
 					>
 					<a
 						on:click={() => changeTab(2)}
-						class="tab tab-lifted text-slate-800 font-bold {currentTab[2]} text-xl">Both</a
+						class="indicator tab tab-lifted text-slate-800 font-bold {currentTab[2]} text-xl">Both
+						<span class="indicator-item badge right-0">{userPlays.length + teamPlays.length}</span></a
 					>
 				</div>
+				<btn class="btn btn-outline btn-error mx-auto">Delete Plays</btn>
+			</div>
 				<div
 					class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6 xl:gap-x-8"
 				>
 					{#if currentTab[1] != '' || currentTab[2] == 'tab-active'}
 						{#await promiseTeam then _}
-							{#each bothPlays as img}
+							{#each teamPlays as img}
 								<RandomImage {img} />
 							{/each}
 						{/await}
@@ -328,3 +388,4 @@
 		</div>
 	</div>
 </div>
+

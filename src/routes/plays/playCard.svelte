@@ -2,11 +2,14 @@
 	import {goto} from "$app/navigation";
 	import {supabase} from "../../supabase"
 	import { currPlay } from '../../stores';
+	let select;
+	let selection;
 	let clickedPlay
 	export let img
 	let click;
 	let clicked = click ? true : false;	
 	
+
 	async function data (item) {
         const { data, error } = await supabase
         .from('playbook')
@@ -26,14 +29,16 @@
 
 
 	function gotoPlay(clickedPlay) {
+		
 		clickedPlay = data(clickedPlay)
 		currPlay.set(clickedPlay);
 		goto("/currplay");
 	}
+
 </script>
 
-<div id = {img.formation.toUpperCase()} on:click|preventDefault={gotoPlay(img.name)}>
-<div class="h-full aspect-w-1 aspect-h-1 w-full rounded-3xl  hover:scale-105  hover:cursor-pointer shadow-xl mx-auto flex ">
+<div id = {img.formation.toUpperCase()} on:click|preventDefault={gotoPlay(img.name)} >
+<div class="h-full aspect-w-1 aspect-h-1 w-full rounded-3xl  hover:scale-105  hover:cursor-pointer shadow-xl mx-auto flex">
 	<div class="card">
 		<figure>
 			<img class="object-fill " loading="lazy" on:click={()=>{

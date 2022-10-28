@@ -13,7 +13,7 @@ currPlay.subscribe(value => {
 console.log(promise)
 
 </script>
-
+<div class = "bg-gradient-to-r from-slate-200 to-slate-100 min-h-screen">
 <Navbar/>
 
 {#await promise}
@@ -36,3 +36,5 @@ console.log(promise)
 </div>
 </div>
 {/await}
+</div>
+
