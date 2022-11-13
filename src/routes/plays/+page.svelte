@@ -291,10 +291,9 @@
 
 
 <div class="bg-gradient-to-r from-slate-200 to-slate-100 min-h-screen">
-	<Navbar />
 	<Stats />
-	<div class="flex ">
-		<div class="drawer-side bg-base-100 h-full rounded-b-2xl">
+	<div class="flex max-h-96">
+		<div class="drawer-side bg-base-100 h-full rounded-b-2xl my-6 mx-2 rounded-lg">
 			<label for="my-drawer-2" class="drawer-overlay bg-base-100" />
 			<h6 class="text-slate-700 font-bold text-2xl p-2">All Formations</h6>
 
@@ -343,31 +342,35 @@
 				</div>
 			</div>
 		</div>
-
-		<div class=" w-full h-full">
-			<div class="mx-auto max-w-5xl py-4 px-4 lg:max-w-7xl">
-				<div class = "flex">
-				<div class="tabs w-full align-center justify-center mx-auto">
-					<a
-						on:click={() => changeTab(0)}
-						class=" indicator tab tab-lifted text-slate-800 font-bold {currentTab[0]} text-xl">Your Plays
-						<span class="indicator-item badge right-0">{userPlays.length}</span></a
-					>
-					<a
-						on:click={() => changeTab(1)}
-						class="indicator tab tab-lifted text-slate-800 font-bold {currentTab[1]} text-xl">Team's Plays
-						<span class="indicator-item badge right-0">{teamPlays.length}</span></a
-					>
-					<a
-						on:click={() => changeTab(2)}
-						class="indicator tab tab-lifted text-slate-800 font-bold {currentTab[2]} text-xl">Both
-						<span class="indicator-item badge right-0">{userPlays.length + teamPlays.length}</span></a
-					>
-				</div>
-				<btn class="btn btn-outline btn-error mx-auto">Delete Plays</btn>
+		<div class = "my-6">
+		<div class = "flex">
+			<div class="tabs w-full align-center justify-center mx-auto">
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<a
+					on:click={() => changeTab(0)}
+					class=" indicator tab tab-lifted text-slate-800 font-bold {currentTab[0]} text-xl">Your Plays
+					<span class="indicator-item badge right-0">{userPlays.length}</span></a
+				>
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<a
+					on:click={() => changeTab(1)}
+					class="indicator tab tab-lifted text-slate-800 font-bold {currentTab[1]} text-xl">Team's Plays
+					<span class="indicator-item badge right-0">{teamPlays.length}</span></a
+				>
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<a
+					on:click={() => changeTab(2)}
+					class="indicator tab tab-lifted text-slate-800 font-bold {currentTab[2]} text-xl">Both
+					<span class="indicator-item badge right-0">{userPlays.length + teamPlays.length}</span></a
+				>
 			</div>
+			<btn class="btn btn-outline btn-error mx-auto">Delete Plays</btn>
+		</div>
+		<div class=" w-full overflow-y-auto h-screen">
+			<div class="mx-auto max-w-5xl py-4 px-4 lg:max-w-7xl">
+				
 				<div
-					class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6 xl:gap-x-8"
+					class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6 xl:gap-x-8 overflow-y-auto bg-gradient-to-r from-slate-200 to-slate-100 "
 				>
 					{#if currentTab[1] != '' || currentTab[2] == 'tab-active'}
 						{#await promiseTeam then _}
@@ -388,4 +391,4 @@
 		</div>
 	</div>
 </div>
-
+</div>

@@ -4,6 +4,7 @@ import {onMount} from "svelte"
 import { currPlay } from '../stores';
 import {goto} from "$app/navigation";
 import { page } from '$app/stores';
+
 let img;
 let context = "";
 let mapOfPlays = new Map();
@@ -70,29 +71,19 @@ async function data (item) {
 
 </script>
 
-<div class="navbar bg-white">
+<div class="navbar bg-white w-full">
     <div class="navbar-start ">
-      <div class="dropdown">
-        <!-- svelte-ignore a11y-label-has-associated-control -->
-        <label tabindex="0" class="btn btn-ghost btn-circle">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-        </label>
-        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-        <li><a href = "/">Home</a></li>
-          <li><a href = "/plays">Plays</a></li>
-          <li><a>About</a></li>
-        </ul>
-      </div>
+      
     </div>
     <div class="navbar-center mx-4">
       <!-- svelte-ignore a11y-missing-attribute -->
       <a class="btn btn-ghost normal-case text-xl text-blue-600">ProtoType 1</a>
     </div>
     <div class="navbar-end mx-4">
-        <div class="dropdown">
+        <div class="dropdown w-full">
             <input type="text"  on:keydown={textSearch} bind:value={searchText} placeholder="Search" class="input input-bordered" />
             {#if playQuant > 0}
-            <ul tabindex="0" class="menu menu-compact dropdown-content mt-4 p-2 shadow bg-base-100 rounded-box w-52">
+            <ul tabindex="0" class="menu menu-compact dropdown-content mt-4 p-2 shadow bg-base-100 rounded-box w-full">
                 {#if playQuant >= 1}  
                 <li><a on:click|preventDefault={setVar(possibilities[0].name)}>{possibilities[0].name}</a></li>
                 {/if}

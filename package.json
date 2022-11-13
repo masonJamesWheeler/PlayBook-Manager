@@ -29,12 +29,15 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@json2csv/plainjs": "^6.1.1",
 		"@supabase/supabase-js": "^1.35.6",
 		"@supabase/ui": "^0.36.5",
 		"chart.js": "^3.9.1",
-		"daisyui": "^2.24.0",
+		"daisyui": "^2.38.1",
 		"darkroom": "^2.0.0",
 		"svelte-chartjs": "^3.0.1",
-		"svelte-local-storage-store": "^0.3.1"
+		"svelte-local-storage-store": "^0.3.1",
+		"svelte-select": "^4.4.7",
+		"svelte-sheets": "^1.0.0"
 	}
 }

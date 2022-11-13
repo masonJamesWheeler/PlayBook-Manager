@@ -146,8 +146,7 @@
 	}
 </script>
 
-<div class="min-h-screen bg-gradient-to-r from-slate-200 to-slate-100">
-	<Navbar />
+<div class=" bg-gradient-to-r from-slate-200 to-slate-100">
 	<div class="mx-auto flex  h-96 items-center justify-center mt-16">
 		<input
 			type="file"
@@ -165,7 +164,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="bg-slate-700 h-screen mb-0 mt-48">
+	<div class="bg-slate-700 h-full mb-0 mt-32">
 		<form class="form-widget h-full py-4 mt-6">
 			<div class="grid grid-cols-3 gap-4 mx-auto my-8 px-4">
 				<input
